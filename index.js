@@ -33,9 +33,14 @@ console.log(`Most recent : ${sorted[0].fields.date_debut}, last one : ${sorted[s
 // 1. Make the function return the number of filming locations in 2020 only
 // 2. Log the result
 function getFilmingLocationsNumber2020 () {
-	return ''
+	let number = 0;
+	filmingLocations.forEach(function(element) {
+		if (element.fields.annee_tournage == "2020"){
+			number++;}
+		})
+	return number
 }
-console.log()
+console.log(`There is ${getFilmingLocationsNumber2020()} filming locations in 2020`)
 
 // 📝 TODO: Number of filming locations per year
 // 1. Implement the function, the expected result is an object with years as
