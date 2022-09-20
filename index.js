@@ -1,6 +1,7 @@
 // Invoking strict mode https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#invoking_strict_mode
 'use strict'
 
+const e = require('express');
 // https://opendata.paris.fr/explore/dataset/lieux-de-tournage-a-paris/information
 const filmingLocations = require('./lieux-de-tournage-a-paris.json')
 
@@ -92,23 +93,52 @@ console.log(getFilmingLocationsNumberPerDistrict())
 //    const result = [{film: 'LRDM - Patriot season 2', locations: 12}, {...}]
 // 2. Log the first and last item of the array
 function getFilmLocationsByFilm () {
-	return []
+	var tabFilmNames = []
+	filmingLocations.forEach(function(element){
+		if (!tabFilmNames.includes(element.fields.nom_tournage)){
+			tabFilmNames.push(element.fields.nom_tournage)
+		}
+	})
+	var tab = []
+	tabFilmNames.forEach(function(element){
+		var dict = {"film":element,"locations":0}
+		filmingLocations.forEach(function(element1){
+			if (element1.fields.nom_tournage == element){
+				dict["locations"]++
+			}
+		})
+		tab.push(dict)
+	})
+	const result = tab.sort(function(a,b){return b['locations']-a['locations']}) 
+	return result
 }
-console.log()
+const result = getFilmLocationsByFilm()
+console.log(result[0],result[result.length-1])
 
 // 📝 TODO: Number of different films
 // 1. Implement the function
 // 2. Log the result
 function getNumberOfFilms() {
-	return ''
+	const film = getFilmLocationsByFilm()
+	return film.length
 }
+console.log(`There are ${getNumberOfFilms()} different films`)
 
 // 📝 TODO: All the filming locations of `LRDM - Patriot season 2`
 // 1. Return an array with all filming locations of LRDM - Patriot season 2
 // 2. Log the result
 function getArseneFilmingLocations () {
-	return []
+	var tab = []
+	filmingLocations.forEach(function(element) {
+		if (element.fields.nom_tournage == `LRDM - Patriot season 2`){
+			if (!tab.includes(element.fields.ardt_lieu)){
+				tab.push(element.fields.ardt_lieu)
+			}
+		}
+	})
+	return tab
 }
+console.log(getArseneFilmingLocations())
 
 // 📝 TODO: Tous les arrondissement des lieux de tournage de nos films favoris
 //  (favoriteFilms)
@@ -117,7 +147,17 @@ function getArseneFilmingLocations () {
 //    const films = { 'LRDM - Patriot season 2': ['75013'] }
 // 2. Log the result
 function getFavoriteFilmsLocations (favoriteFilmsNames) {
-	return []
+	var tab = []
+	favoriteFilmsNames.forEach(function(element1){
+		filmingLocations.forEach(function(element) {
+			if (element.fields.nom_tournage == element1){
+				if (!tab.includes(element.fields.ardt_lieu)){
+					tab.push(element.fields.ardt_lieu)
+				}
+			}
+		})
+	})
+	return tab
 }
 const favoriteFilms =
 	[
@@ -125,7 +165,7 @@ const favoriteFilms =
 		'Alice NEVERS',
 		'Emily in Paris',
 	]
-
+console.log(getFavoriteFilmsLocations(favoriteFilms))
 // 📝 TODO: All filming locations for each film
 //     e.g. :
 //     const films = {
