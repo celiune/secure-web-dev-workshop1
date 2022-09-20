@@ -51,9 +51,19 @@ console.log(`There is ${getFilmingLocationsNumber2020()} filming locations in 20
 //    }
 // 2. Log the result
 function getFilmingLocationsNumberPerYear () {
-	return {}
+	var dict = {}
+	filmingLocations.forEach(function(element){
+		if (element.fields.annee_tournage in dict){
+			dict[element.fields.annee_tournage]++;
+		}
+		else
+		{
+			dict[element.fields.annee_tournage]=1;
+		}
+	})
+	return dict
 }
-console.log()
+console.log(getFilmingLocationsNumberPerYear())
 
 // 📝 TODO: Number of filming locations by district (arrondissement)
 // 1. Implement the function, the expected result is an object with
