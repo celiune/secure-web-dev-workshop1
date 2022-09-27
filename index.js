@@ -191,8 +191,15 @@ console.log(getFilmingLocationsPerFilm())
 // 1. Implement the function
 // 2. Log the result
 function countFilmingTypes () {
-	return {}
+	var tabFilmTypes = []
+	filmingLocations.forEach(function(element){
+		if (!tabFilmTypes.includes(element.fields.type_tournage)){
+			tabFilmTypes.push(element.fields.type_tournage)
+		}
+	})
+	return tabFilmTypes.length
 }
+console.log(`There are ${countFilmingTypes()} types of films.`)
 
 // 📝 TODO: Sort each type of filming by count, from highest to lowest
 // 1. Implement the function. It should return a sorted array of objects like:
