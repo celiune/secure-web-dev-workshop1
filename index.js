@@ -167,7 +167,6 @@ const favoriteFilms =
 		'Alice NEVERS',
 		'Emily in Paris',
 	]
-
 console.log(getFavoriteFilmsLocations(favoriteFilms))
 
 // 📝 TODO: All filming locations for each film
@@ -177,8 +176,16 @@ console.log(getFavoriteFilmsLocations(favoriteFilms))
 //        'Une jeune fille qui va bien': [{...}]
 //     }
 function getFilmingLocationsPerFilm () {
-	return { }
+	var tabFilmNames = []
+	filmingLocations.forEach(function(element){
+		if (!tabFilmNames.includes(element.fields.nom_tournage)){
+			tabFilmNames.push(element.fields.nom_tournage)
+		}
+	})
+	const dict = getFavoriteFilmsLocations(tabFilmNames)
+	return dict
 }
+console.log(getFilmingLocationsPerFilm())
 
 // 📝 TODO: Count each type of film (Long métrage, Série TV, etc...)
 // 1. Implement the function
