@@ -199,15 +199,33 @@ function countFilmingTypes () {
 	})
 	return tabFilmTypes.length
 }
-console.log(`There are ${countFilmingTypes()} types of films.`)
+console.log(`There are ${countFilmingTypes()} different types of films.`)
 
 // 📝 TODO: Sort each type of filming by count, from highest to lowest
 // 1. Implement the function. It should return a sorted array of objects like:
 //    [{type: 'Long métrage', count: 1234}, {...}]
 // 2. Log the result
 function sortedCountFilmingTypes () {
-	return []
+	var tabFilmTypes = []
+	filmingLocations.forEach(function(element){
+		if (!tabFilmTypes.includes(element.fields.type_tournage)){
+			tabFilmTypes.push(element.fields.type_tournage)
+		}
+	})
+	var tab = []
+	tabFilmTypes.forEach(function(element){
+		var dict = {"type":element,"count":0}
+		filmingLocations.forEach(function(element1){
+			if (element1.fields.type_tournage == element){
+				dict["count"]++
+			}
+		})
+		tab.push(dict)
+	})
+	const result = tab.sort(function(a,b){return b["count"]-a["count"]})
+	return result
 }
+console.log(sortedCountFilmingTypes())
 
 /**
  * This arrow functions takes a duration in milliseconds and returns a
